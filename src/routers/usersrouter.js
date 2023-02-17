@@ -25,7 +25,7 @@ router.post("/user/register", async(req, res) => {
     }
     catch(e) {
         resJson = Res(500, "Something went wrong, please try again..", {});
-        res.status(500).json(resJson);;
+        res.status(500).json(resJson);
     }
 });
 
@@ -45,7 +45,7 @@ router.post("/user/login", async(req, res) => {
         res.setHeader('X-Token', tokenObj.token);
         res.setHeader('refresh-Token', tokenObj.refreshToken);
         res.cookie('jwt', tokenObj.token, {
-            expires: new Date(Date.now() + 20000),
+            expires: new Date(Date.now() + 200000),
             httpOnly: true,
             // secure: true /* this will work in https */
         });
@@ -98,16 +98,17 @@ router.post('/user/refresh-token', async(req, res) => {
     console.log("request body: ", req.body);
     try {
         const email = req.body.email;
-        const password = req.body.password;
+        // const password = req.body.password;
         const refreshtoken = req.body.refreshtoken;
         const userData = await User.findOne({email: email});
         let isRefreshtokenMatched = userData.refreshTokens.filter( x => x.refreshtoken === refreshtoken);
-        const isMatch = await (bcrypt.compare(password, userData.password) && isRefreshtokenMatched);
-        if(isMatch) {
+        // const isMatch = await (bcrypt.compare(password, userData.password) && isRefreshtokenMatched);
+        if(isRefreshtokenMatched) {
             const tokenObj = await userData.refreshAuthToken(refreshtoken);
+            console.log("tokenObj from refre-token: ", tokenObj);
             res.setHeader('X-Token', tokenObj.token);
             res.cookie('jwt', tokenObj.token, {
-                expires: new Date(Date.now() + 20000),
+                expires: new Date(Date.now() + 200000),
                 httpOnly: true,
                 // secure: true /* this will work in https */
             });
@@ -125,7 +126,7 @@ router.post('/user/refresh-token', async(req, res) => {
 router.get("/user/getUsers", async(req, res) => {
     try {
         const usersData = await User.find();
-        // const tokenValidated = await validateAuthToken(req.headers.cookie?.split("=")[1]);
+        console.log("jwt from cookie: ", req.cookies.jwt);
         const tokenValidated = await commonMethods.validateAuthToken(req.cookies.jwt);
         if(tokenValidated) {
             if(usersData) {
