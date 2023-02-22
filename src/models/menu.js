@@ -17,11 +17,11 @@ const menuSchema = new mongoose.Schema({
     },
     createdOn: {
         type: Date,
-        required: true
+        default: Date.now
     },
     updatedOn: {
         type: Date,
-        required: true
+        default: Date.now
     },
     status: {
         type: String,
