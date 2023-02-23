@@ -130,7 +130,7 @@ router.delete("/menu/deleteMenu/:id", async(req, res) => {
     }
 });
 
-// update data from db by id
+// update data into db by id
 router.patch("/menu/updateMenu/:id", async(req, res) => {
     try{
         const tokenValidated = await commonMethods.validateAuthToken(req.cookies.jwt);
