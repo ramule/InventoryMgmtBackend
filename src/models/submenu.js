@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
-const menuSchema = new mongoose.Schema({
-    menuName: {
+const submenuSchema = new mongoose.Schema({
+    submenuName: {
         type: String,
         required: true,
         unique: true
     },
-    menuRoute: {
+    submenuRoute: {
         type: String,
         required: true,
         unique: true
     },
-    menuIcon: {
+    submenuIcon: {
         type: String,
         required: true
     },
@@ -26,18 +26,15 @@ const menuSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
-    },
-    submenuId: {
-        type: [mongoose.Schema.Types.ObjectId]
     }
 });
 
-menuSchema.pre("save", async function(next) {
+submenuSchema.pre("save", async function(next) {
     next();
 });
 
 
 // We will create a new collection
 
-const Menu = new mongoose.model('Menu', menuSchema);
-module.exports = Menu;
+const Submenu = new mongoose.model('Submenu', submenuSchema);
+module.exports = Submenu;
