@@ -101,7 +101,7 @@ router.post('/user/refresh-token', async(req, res) => {
         // const password = req.body.password;
         const refreshtoken = req.body.refreshtoken;
         const userData = await User.findOne({email: email});
-        let isRefreshtokenMatched = userData.refreshTokens.filter( x => x.refreshtoken === refreshtoken);
+        let isRefreshtokenMatched = userData.refreshTokens.some( x => JSON.stringify(x.refreshtoken) === JSON.stringify(refreshtoken));
         // const isMatch = await (bcrypt.compare(password, userData.password) && isRefreshtokenMatched);
         if(isRefreshtokenMatched) {
             const tokenObj = await userData.refreshAuthToken(refreshtoken);
@@ -112,10 +112,12 @@ router.post('/user/refresh-token', async(req, res) => {
                 httpOnly: true,
                 // secure: true /* this will work in https */
             });
+            resJson = Res(200, "Refresh token created successfully", {});
+            res.status(200).json(resJson);
+        } else {
+            resJson = Res(400, "Token does not match", {});
+            res.status(400).json(resJson);
         }
-
-        resJson = Res(200, "Refresh token created successfully", {});
-        res.status(200).json(resJson);
     } catch(e) {
         resJson = Res(500, "Something went wrong, please try again..", {});
         res.status(500).json(resJson);

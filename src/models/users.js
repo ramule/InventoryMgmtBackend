@@ -55,6 +55,8 @@ usersSchema.methods.generateAuthToken = async function() {
 
         tokenObj.token = token;
         tokenObj.refreshToken = refreshToken;
+        this.tokens = [];
+        this.refreshTokens = [];
         this.tokens = this.tokens.concat({token: tokenObj.token});
         this.refreshTokens = this.refreshTokens.concat({refreshtoken: tokenObj.refreshToken});
         await this.save();
@@ -72,7 +74,8 @@ usersSchema.methods.refreshAuthToken = async function(refreshtoken) {
             "refreshToken": ""
         }
         const token = jwt.sign({_id: this._id.toString()}, process.env.SECRET_KEY);
-
+        this.tokens = [];
+        this.refreshTokens = [];
         tokenObj.token = token;
         this.tokens = this.tokens.concat({token: tokenObj.token});
         this.refreshTokens = this.refreshTokens.concat({refreshtoken: refreshtoken});
