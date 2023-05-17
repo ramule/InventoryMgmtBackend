@@ -43,7 +43,7 @@ router.get("/submenu/getSubmenus", async(req, res) => {
         if(tokenValidated) {
 
             /** To get menusdata from menu table */
-            console.log("req: ", req);
+            // console.log("req: ", req);
             const submenusData = await Submenu.find().
             then((menusArray) => {
                 if(menusArray.length > 0) {

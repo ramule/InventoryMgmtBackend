@@ -95,7 +95,7 @@ router.post('/user/logout', async(req, res) => {
 });
 
 router.post('/user/refresh-token', async(req, res) => {
-    console.log("request body: ", req.body);
+    // console.log("request body: ", req.body);
     try {
         const email = req.body.email;
         // const password = req.body.password;
@@ -105,7 +105,7 @@ router.post('/user/refresh-token', async(req, res) => {
         // const isMatch = await (bcrypt.compare(password, userData.password) && isRefreshtokenMatched);
         if(isRefreshtokenMatched) {
             const tokenObj = await userData.refreshAuthToken(refreshtoken);
-            console.log("tokenObj from refre-token: ", tokenObj);
+            // console.log("tokenObj from refre-token: ", tokenObj);
             res.setHeader('X-Token', tokenObj.token);
             res.cookie('jwt', tokenObj.token, {
                 expires: new Date(Date.now() + 200000),
@@ -128,7 +128,7 @@ router.post('/user/refresh-token', async(req, res) => {
 router.get("/user/getUsers", async(req, res) => {
     try {
         const usersData = await User.find();
-        console.log("jwt from cookie: ", req.cookies.jwt);
+        // console.log("jwt from cookie: ", req.cookies.jwt);
         const tokenValidated = await commonMethods.validateAuthToken(req.cookies.jwt);
         if(tokenValidated) {
             if(usersData) {

@@ -4,6 +4,7 @@ require('./db/conn');
 const usersRouter = require('./routers/usersrouter');
 const menusRouter = require('./routers/menusrouter');
 const submenusRouter = require('./routers/submenurouter');
+const iconsRouter = require('./routers/iconsrouter');
 const cookieParser = require("cookie-parser");
 const cors = require('cors');
 
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.use(usersRouter);
 app.use(menusRouter);
 app.use(submenusRouter);
+app.use(iconsRouter);
 app.use(cors({
   origin: '*'
 }));
